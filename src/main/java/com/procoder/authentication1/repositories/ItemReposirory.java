@@ -4,11 +4,10 @@ package com.procoder.authentication1.repositories;
 import com.procoder.authentication1.models.Item;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
 public class ItemReposirory {
@@ -37,8 +36,13 @@ public class ItemReposirory {
             new Item(20, "Wildcraft Backpack", "35L Waterproof Travel Bag", 110, 2499.0, 28.0, 4.3)
     );
 
-    public List<Item> getAllItems(){
-        return new ArrayList<>(items);
+    public Optional<Item> getUserById(Integer id){
+        return items.stream()
+                .filter(x -> Objects.equals(x.getItemId(), id))
+                .findFirst();
     }
 
+    public List<Item> getAllItems() {
+        return items;
+    }
 }

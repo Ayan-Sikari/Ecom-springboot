@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
+<%@ taglib prefix="comp" tagdir="/WEB-INF/tags/components" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,10 +13,14 @@
             margin: 20px;
         }
 
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 15px 25px;
+        }
+
         .user-info {
-            position: absolute;
-            top: 15px;
-            right: 25px;
             text-align: right;
         }
 
@@ -81,54 +85,30 @@
 
 <body>
 
-<div class="user-info">
-    <b>${username}</b><br>
-    <i>Role: ${role}</i><br>
-    <a href="/">Logout</a>
+<div class="header">
+    <h1>Welcome to Store</h1>
+    <div class="user-info">
+        <b>${username}</b><br>
+        <i>Role: ${role}</i><br>
+        <p>
+                    Last Login at:
+                    <fmt:formatDate value="${loginTime}" pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+05:30"/>
+        </p>
+        <a href="/logout">Logout</a>
+    </div>
 </div>
 
-<h2>Welcome to Store</h2>
+<c:choose>
 
-<div class="grid">
-    <c:forEach var="item" items="${items}">
+    <c:when test="${not empty selectedItem}">
+        <comp:itemDetails item="${selectedItem}" />
+    </c:when>
 
-        <c:set var="finalPrice"
-               value="${item.itemPrice - (item.itemPrice * item.itemDiscount / 100.0)}"/>
+    <c:otherwise>
+        <comp:itemGrid items="${items}" />
+    </c:otherwise>
 
-        <div class="card">
-            <h4>${item.itemName}</h4>
-            <p>${item.itemDescription}</p>
-
-            <div>
-                <span class="original-price">${item.itemPrice}Rs.</span>
-
-                <span class="discounted-price">
-                    <fmt:formatNumber value="${finalPrice}" maxFractionDigits="2"/>Rs.
-                </span>
-
-                <span class="discount">(
-                    <c:out value="${item.itemDiscount}"></c:out>
-                     % OFF)
-                </span>
-            </div>
-
-            <c:choose>
-                <c:when test="${item.itemQuantity == null or item.itemQuantity eq 0}">
-                    <p class="out-of-stock">Out of Stock</p>
-                    <button class="notify-btn">Notify Me</button>
-                </c:when>
-                <c:otherwise>
-                    <p class="in-stock">In Stock</p>
-                    <button class="buy-btn">Buy Now</button>
-                </c:otherwise>
-            </c:choose>
-
-            <p>⭐ ${item.itemRating}</p>
-        </div>
-
-    </c:forEach>
-</div>
-
+</c:choose>
 </body>
 </html>
 

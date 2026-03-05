@@ -79,4 +79,5 @@ public class Item {
     public void setItemRating(Double itemRating) {
         this.itemRating = itemRating;
     }
+
 }
