@@ -28,7 +28,6 @@ public class UserController {
         this.itemService = itemService;
     }
 
-    // Home page
     @GetMapping({"/", "/home"})
     public String home(HttpSession session) {
 
@@ -39,7 +38,6 @@ public class UserController {
         return "login";
     }
 
-    // Login
     @PostMapping("/auth/login")
     public String login(@RequestParam String username,
                         @RequestParam String password,
@@ -51,7 +49,7 @@ public class UserController {
 
         if (u.isPresent()) {
 
-            // Store user in session
+            
             session.setAttribute("user", u.get());
             session.setAttribute("loginTime",new Date());
 
@@ -62,7 +60,6 @@ public class UserController {
         return "redirect:/";
     }
 
-    // Welcome page
     @GetMapping("/welcome")
     public String welcome(Model model,
                           HttpSession session,
@@ -74,7 +71,6 @@ public class UserController {
             return "redirect:/";
         }
 
-        // 🔥 Disable browser caching
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         response.setHeader("Pragma", "no-cache");
         response.setDateHeader("Expires", 0);
@@ -105,12 +101,10 @@ public class UserController {
         return "welcome";
     }
 
-
-    // Logout
     @GetMapping("/logout")
     public String logout(HttpSession session) {
 
-        session.invalidate();  // destroy session
+        session.invalidate();
 
         return "redirect:/home";
     }

@@ -80,11 +80,11 @@
                 <span class="item-original-price">
                     ${item.itemPrice} Rs.
                 </span>
-
+                <br/>
                 <span class="item-discounted-price">
                     ₹ <fmt:formatNumber value="${finalPrice}" maxFractionDigits="2" minFractionDigits="2"/>
                 </span>
-
+                <br>
                 <span class="item-discount">
                     (<fmt:formatNumber value="${item.itemDiscount}" maxFractionDigits="0" minFractionDigits="0"/>% OFF)
                 </span>
@@ -97,7 +97,9 @@
                 </c:when>
                 <c:otherwise>
                     <p class="item-in-stock">In Stock</p>
-                    <button class="item-btn item-buy-btn">Buy Now</button>
+                    <form action="/cart/add/${item.itemId}" method="post">
+                        <button class="item-btn item-buy-btn" type="submit">Buy Now</button>
+                    </form>
                 </c:otherwise>
             </c:choose>
 

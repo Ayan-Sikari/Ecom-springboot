@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="comp" tagdir="/WEB-INF/tags/components" %>
 <!DOCTYPE html>
 <html>
@@ -87,13 +88,42 @@
 
 <div class="header">
     <h1>Welcome to Store</h1>
+    <div style="position:relative; float:right; margin-right:20px;">
+        <a href="/orders">📦 My Orders</a>
+
+        <a href="/cart/view" style="text-decoration:none; font-size:22px;">
+            🛒
+        </a>
+
+        <c:if test="${not empty sessionScope.user.cart.items}">
+        <span style="
+            position:absolute;
+            top:-8px;
+            right:-10px;
+            background:red;
+            color:white;
+            font-size:12px;
+            padding:2px 6px;
+            border-radius:50%;
+        ">
+                ${fn:length(sessionScope.user.cart.items)}
+        </span>
+        </c:if>
+
+    </div>
     <div class="user-info">
-        <b>${username}</b><br>
+        <b>
+            <a href="/account" style="font-weight:bold; text-decoration:none; color:black;">
+                ${username}
+            </a>
+        </b>
+        <br>
         <i>Role: ${role}</i><br>
         <p>
                     Last Login at:
                     <fmt:formatDate value="${loginTime}" pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+05:30"/>
         </p>
+
         <a href="/logout">Logout</a>
     </div>
 </div>

@@ -1,17 +1,31 @@
 package com.procoder.authentication1.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Item {
 
+    @JsonProperty("id")
     private Integer itemId;
+
+    @JsonProperty("name")
     private String itemName;
+
+    @JsonProperty("description")
     private String itemDescription;
+
+    @JsonProperty("quantity")
     private Integer itemQuantity;
+
+    @JsonProperty("price")
     private Double itemPrice;
+
+    @JsonProperty("discount")
     private Double itemDiscount;
+
+    @JsonProperty("rating")
     private Double itemRating;
 
-    public Item(){
-
+    public Item() {
     }
 
     public Item(Integer itemId, String itemName, String itemDescription, Integer itemQuantity, Double itemPrice, Double itemDiscount, Double itemRating) {
@@ -80,4 +94,25 @@ public class Item {
         this.itemRating = itemRating;
     }
 
+    public double getFinalPrice(){
+
+        if(itemPrice == null || itemDiscount == null){
+            return 0.0;
+        }
+
+        return itemPrice - (itemPrice * itemDiscount / 100);
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "itemId=" + itemId +
+                ", itemName='" + itemName + '\'' +
+                ", itemDescription='" + itemDescription + '\'' +
+                ", itemQuantity=" + itemQuantity +
+                ", itemPrice=" + itemPrice +
+                ", itemDiscount=" + itemDiscount +
+                ", itemRating=" + itemRating +
+                '}';
+    }
 }
